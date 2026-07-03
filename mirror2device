@@ -14,6 +14,9 @@ if [ "$(id -u)" != "0" ]; then
   exec sudo "$0" "$@"
 fi
 
+red=$'\e[1;31m'
+end=$'\e[0m'
+
 user="$SUDO_USER"
 hostname=$(hostname)
 skipcheck="$1"
@@ -168,7 +171,7 @@ askifformatdesired () {
             exit;
         fi
     else #format not needed but still an option
-        echo -e "\nTarget has preexisting mirror."
+        echo -e "\n${red}Target has preexisting mirror.${end}" #just to make it easier for my tired old eyes :)
         echo -e "Preexisting mirror can either be refreshed or created anew. (default is to refresh the existing mirror)"
         read -p "Format and create a new mirror? [y/N]: " formatRequested
         formatRequested=${formatRequested:-N}
