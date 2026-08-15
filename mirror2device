@@ -227,7 +227,7 @@ systemctl stop mysql
 domirror () {
 echo "making the mirror"
     label="target"
-    mount /boot/efi
+    if ! mountpoint -q /boot/efi; then mount /boot/efi ; fi
     mkdir -p /media/$user/EFI
     mount "$efipartition" /media/$user/EFI
     mkdir -p /media/$user/$label
@@ -249,7 +249,6 @@ echo "making the mirror"
     find /media/$user/EFI/ -name "grub.cfg" -exec sed -i "s/$sourceuuid/$targetuuid/" "{}" \;
 
     rsync -axAXHv \
---exclude='/home/*/.cache' \
 --exclude='/home/*/.gvfs' \
 --exclude='/dev/*' \
 --exclude='/proc/*' \
